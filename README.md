@@ -20,10 +20,14 @@ Permettre de pouvoir modifier simultanément 2 tags html différents sur la mêm
 
 Permettre la configurations des options de graisse de police depuis la popup de l'extension
 
-## Version 3
+## Version 4
 
 Permettre l inclusion de l'italic dans les options de configuration
 
-## Version 4
+## Version 5
+
+Permettre la sauvegarde des options de configuration.
+
+## Version 6
 
 Mettre en place une recherche de typo et de configuration de typo disponible sur google font
