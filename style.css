@@ -1,0 +1,33 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+main {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 5px;
+}
+h1 {
+  color: hsl(0, 100%, 50%);
+}
+div:has(select) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: justify;
+}
+button {
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  color: white;
+  background-color: hsl(0, 100%, 50%);
+  transition: 0.3s;
+}
+button:hover {
+  background-color: hsl(0, 100%, 40%);
+}
