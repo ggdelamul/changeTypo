@@ -1,5 +1,5 @@
 console.log("changeTypo.js");
-
+let data;
 const changeTypo = (police, tag) => {
   // Créez une nouvelle balise link
   let linkElement1 = document.createElement("link");
@@ -22,20 +22,33 @@ const changeTypo = (police, tag) => {
     tagHtml[i].style.fontFamily = police;
   }
 };
+/* creation d'une fonction permettant d'itérer sur l'obejt reçu aplliquer le traitement de retrait du plus le cas échéant et retourné mon objet */
+const removeAplus = (objet) => {
+  let searchPlus = "+";
+  for (let value in objet) {
+    if (objet.hasOwnProperty(value)) {
+      // console.log(value + ": " + objet[value]);
+      let hasAplus = objet[value].indexOf(searchPlus);
+      if (hasAplus != -1) {
+        console.log(objet[value] + " a un plus");
+        objet[value] = objet[value].replaceAll("+", " ");
+        console.log(objet[value] + "apres replace()");
+      } else {
+        console.log(objet[value] + " n'en a pas");
+      }
+    }
+  }
+  return objet;
+};
 chrome.runtime.onMessage.addListener((message, sender, sendReponse) => {
   let data = message;
   console.log(data);
-  let typo = data.font;
-  let searchPlus = "+";
-  let hasAplus = typo.indexOf(searchPlus);
-  if (hasAplus != -1) {
-    console.log(typo + " a un plus");
-    typo = typo.replaceAll("+", " ");
-    console.log(typo + "apres replace()");
-  } else {
-    console.log(typo + " n'en a pas");
-  }
-  let tag = data.tag;
-  console.log(typo, tag);
-  changeTypo(typo, tag);
+  /* traitement de la présence du plus*/
+  let newData = removeAplus(data);
+  console.log(newData);
+  /* destructuration de l'objet*/
+  const { font1, font2, tag1, tag2 } = newData;
+  console.log(font1, font2, tag1, tag2);
+  changeTypo(font1, tag1);
+  changeTypo(font2, tag2);
 });
