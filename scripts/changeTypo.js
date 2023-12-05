@@ -52,12 +52,8 @@ chrome.runtime.onMessage.addListener((message) => {
   } else {
     console.log("erreur dans l'envoi du message");
   }
-  /* traitement de la présence du plus*/
   let newData = removeAplus(data);
-  console.log(newData);
-  /* destructuration de l'objet*/
   const { font1, font2, tag1, tag2 } = newData;
-  console.log(font1, font2, tag1, tag2);
   changeTypo(font1, tag1);
   changeTypo(font2, tag2);
 });
