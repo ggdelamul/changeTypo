@@ -47,4 +47,7 @@ btn.addEventListener("click", () => {
   // console.log(htmlElement1 + "tag1");
   // console.log(police2 + "police2");
   // console.log(htmlElement2 + "tag2");
+  chrome.runtime.onMessage.addListener((message, sender, sendReponse) => {
+    console.log(message);
+  });
 });

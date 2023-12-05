@@ -22,7 +22,7 @@ const changeTypo = (police, tag) => {
     tagHtml[i].style.fontFamily = police;
   }
 };
-/* creation d'une fonction permettant d'itérer sur l'obejt reçu aplliquer le traitement de retrait du plus le cas échéant et retourné mon objet */
+/* creation d'une fonction permettant d'itérer sur l'obejt reçu, appliquer le traitement de retrait du plus le cas échéant et retourner l'objet */
 const removeAplus = (objet) => {
   let searchPlus = "+";
   for (let value in objet) {
@@ -40,9 +40,18 @@ const removeAplus = (objet) => {
   }
   return objet;
 };
-chrome.runtime.onMessage.addListener((message, sender, sendReponse) => {
+
+chrome.runtime.onMessage.addListener((message) => {
   let data = message;
-  console.log(data);
+  console.log(typeof data);
+  if (typeof data == "object") {
+    console.log("j'ai bien mon message");
+    chrome.runtime.sendMessage({
+      message: "Bien reçu Bien reçu",
+    });
+  } else {
+    console.log("erreur dans l'envoi du message");
+  }
   /* traitement de la présence du plus*/
   let newData = removeAplus(data);
   console.log(newData);
