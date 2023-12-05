@@ -21,6 +21,12 @@ h1 {
   align-items: center;
   text-align: justify;
 }
+.btnSendContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
 button {
   border: none;
   cursor: pointer;
@@ -31,4 +37,9 @@ button {
 }
 button:hover {
   background-color: hsl(0, 100%, 40%);
+}
+.error {
+  display: none;
+  color: red;
+  text-align: center;
 }

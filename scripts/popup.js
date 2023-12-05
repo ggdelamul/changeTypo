@@ -5,6 +5,7 @@ let police1;
 let htmlElement1;
 let police2;
 let htmlElement2;
+let error = document.querySelector(".error");
 //2 modifier les methodes ajout de parametre get HtmlElementValue getTypoValue
 const getHtmlElementValue = (selecteur) => {
   let selectHtmlElement = document.querySelector(selecteur);
@@ -34,13 +35,14 @@ btn.addEventListener("click", () => {
   //creer le logique pour éviter le doublon de tag html
   if (htmlElement1 == htmlElement2) {
     console.log("les 2 tags html sont identiques");
-    const divBtn = document.querySelector(".btnSendContainer");
+    error.style.display = "block";
   } else {
     console.log("envoi le message à la page");
+    error.style.display = "none";
     // sendMessage();
   }
-  console.log(police1 + "police1");
-  console.log(htmlElement1 + "tag1");
-  console.log(police2 + "police2");
-  console.log(htmlElement2 + "tag2");
+  // console.log(police1 + "police1");
+  // console.log(htmlElement1 + "tag1");
+  // console.log(police2 + "police2");
+  // console.log(htmlElement2 + "tag2");
 });
