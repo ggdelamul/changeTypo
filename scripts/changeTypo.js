@@ -1,6 +1,6 @@
 console.log("changeTypo.js");
 let data;
-const changeTypo = (police, tag) => {
+const changeTypo = (config) => {
   // Créez une nouvelle balise link
   let linkElement1 = document.createElement("link");
   linkElement1.rel = "preconnect";
@@ -11,39 +11,18 @@ const changeTypo = (police, tag) => {
   linkElement2.crossOrigin = "crossorigin";
   let linkElement3 = document.createElement("link");
   linkElement3.rel = "stylesheet";
-  linkElement3.href =
-    /*"https://fonts.googleapis.com/css2?family=Vina+Sans&display=swap";*/
-    `https://fonts.googleapis.com/css2?family=${police}&display=swap`;
+  linkElement3.href = `https://fonts.googleapis.com/css2?family=${config.typo}&display=swap`;
   document.head.appendChild(linkElement1);
   document.head.appendChild(linkElement2);
   document.head.appendChild(linkElement3);
-  let tagHtml = document.querySelectorAll(tag);
+  let tagHtml = document.querySelectorAll(config.tag);
   for (let i = 0; i < tagHtml.length; i++) {
-    tagHtml[i].style.fontFamily = police;
+    tagHtml[i].style.fontFamily = config.typo;
   }
 };
-/* creation d'une fonction permettant d'itérer sur l'obejt reçu, appliquer le traitement de retrait du plus le cas échéant et retourner l'objet */
-const removeAplus = (objet) => {
-  let searchPlus = "+";
-  for (let value in objet) {
-    if (objet.hasOwnProperty(value)) {
-      // console.log(value + ": " + objet[value]);
-      let hasAplus = objet[value].indexOf(searchPlus);
-      if (hasAplus != -1) {
-        console.log(objet[value] + " a un plus");
-        objet[value] = objet[value].replaceAll("+", " ");
-        console.log(objet[value] + "apres replace()");
-      } else {
-        console.log(objet[value] + " n'en a pas");
-      }
-    }
-  }
-  return objet;
-};
-
 chrome.runtime.onMessage.addListener((message) => {
   let data = message;
-  console.log(typeof data);
+  console.log(data);
   if (typeof data == "object") {
     console.log("j'ai bien mon message");
     chrome.runtime.sendMessage({
@@ -52,12 +31,7 @@ chrome.runtime.onMessage.addListener((message) => {
   } else {
     console.log("erreur dans l'envoi du message");
   }
-  /* traitement de la présence du plus*/
-  let newData = removeAplus(data);
-  console.log(newData);
-  /* destructuration de l'objet*/
-  const { font1, font2, tag1, tag2 } = newData;
-  console.log(font1, font2, tag1, tag2);
-  changeTypo(font1, tag1);
-  changeTypo(font2, tag2);
+  const { config1, config2 } = data;
+  changeTypo(config1);
+  changeTypo(config2);
 });
