@@ -36,6 +36,8 @@ btn.addEventListener("click", () => {
   weight2 = parseInt(weight2);
   if (htmlElement1 == htmlElement2) {
     console.log("les 2 tags html sont identiques");
+    error.textContent =
+      "Vous avez sélectionner 2 fois le même tag HTML , merci de modifier votre sélection";
     error.style.display = "block";
   } else {
     error.style.display = "none";
@@ -62,6 +64,8 @@ btn.addEventListener("click", () => {
       }
       // Si la requête échoue, modifiez l'URL et retournez la nouvelle URL
       console.log("Modification de l'URL suite à un échec de la requête.");
+      error.textContent = `Graisse de police ${config.typo} indisponible graisse par defaut regular`;
+      error.style.display = "block";
       const modifiedUrl =
         "https://fonts.googleapis.com/css2?family=" +
         config.typo +

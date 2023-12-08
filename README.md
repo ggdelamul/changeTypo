@@ -15,10 +15,12 @@ Permettre la modification des typo avec un choix de typo en regular
 ## Version 2
 
 Permettre de pouvoir modifier simultanément 2 tags html différents sur la même page.
+version 2.0.1 Ajout d'un message d'erreur en cas de selection de tag html identique.
 
 ## Version 3
 
 Permettre la configurations des options de graisse de police depuis la popup de l'extension
+version 3.0.1 ajout d'un message lorsque la graisse de la police demandé n'existe pas.
 
 ## Version 4
 
