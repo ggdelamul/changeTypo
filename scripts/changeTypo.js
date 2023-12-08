@@ -1,5 +1,13 @@
 console.log("changeTypo.js");
 let data;
+const removeAplus = (config) => {
+  let searchPlus = "+";
+  let hasAplus = config.typo.indexOf(searchPlus);
+  if (hasAplus != 1) {
+    config.typo = config.typo.replace("+", " ");
+  }
+  return config.typo;
+};
 const changeTypo = (config) => {
   // Créez une nouvelle balise link
   let linkElement1 = document.createElement("link");
@@ -11,13 +19,14 @@ const changeTypo = (config) => {
   linkElement2.crossOrigin = "crossorigin";
   let linkElement3 = document.createElement("link");
   linkElement3.rel = "stylesheet";
-  linkElement3.href = `https://fonts.googleapis.com/css2?family=${config.typo}&display=swap`;
+  linkElement3.href = config.url;
   document.head.appendChild(linkElement1);
   document.head.appendChild(linkElement2);
   document.head.appendChild(linkElement3);
   let tagHtml = document.querySelectorAll(config.tag);
   for (let i = 0; i < tagHtml.length; i++) {
     tagHtml[i].style.fontFamily = config.typo;
+    tagHtml[i].style.fontWeight = config.weight;
   }
 };
 chrome.runtime.onMessage.addListener((message) => {
@@ -32,6 +41,8 @@ chrome.runtime.onMessage.addListener((message) => {
     console.log("erreur dans l'envoi du message");
   }
   const { config1, config2 } = data;
+  config1.typo = removeAplus(config1);
+  config2.typo = removeAplus(config2);
   changeTypo(config1);
   changeTypo(config2);
 });

@@ -34,58 +34,76 @@ btn.addEventListener("click", () => {
   //recup de l'éléments graisse2
   weight2 = getWeightValue("#choixWeight2");
   weight2 = parseInt(weight2);
-  //construction de la configuration
-  let config1 = new Configuration(police1, htmlElement1, weight1);
-  let config2 = new Configuration(police2, htmlElement2, weight2);
-  config1.makeUrl();
-  async function testerEtModifierURL(url, config) {
-    try {
-      const response = await fetch(url);
-      // Vérifier le statut de la réponse
-      if (response.ok) {
-        console.log("L'URL a été chargée avec succès.");
-        return url; // Retourne l'URL d'origine si le statut est OK
-      } else {
-        console.error(
-          `Échec du chargement de l\'URL ${url}. Statut de la réponse : ${response.status}`
-        );
+  if (htmlElement1 == htmlElement2) {
+    console.log("les 2 tags html sont identiques");
+    error.style.display = "block";
+  } else {
+    error.style.display = "none";
+    //construction de la configuration
+    let configuration1 = new Configuration(police1, htmlElement1, weight1);
+    let configuration2 = new Configuration(police2, htmlElement2, weight2);
+    configuration1.makeUrl();
+    configuration2.makeUrl();
+    async function testerEtModifierURL(url, config) {
+      try {
+        const response = await fetch(url);
+        // Vérifier le statut de la réponse
+        if (response.ok) {
+          console.log("L'URL a été chargée avec succès.");
+          let letNewConfig = [url, config.weight];
+          return letNewConfig; // Retourne l'URL d'origine si le statut est OK
+        } else {
+          console.error(
+            `Échec du chargement de l\'URL ${url}. Statut de la réponse : ${response.status}`
+          );
+        }
+      } catch (e) {
+        console.error(`Erreur lors de la requête pour l\'URL ${url} :`, e);
       }
-    } catch (e) {
-      console.error(`Erreur lors de la requête pour l\'URL ${url} :`, e);
-    }
-    // Si la requête échoue, modifiez l'URL et retournez la nouvelle URL
-    console.log("Modification de l'URL suite à un échec de la requête.");
-    const modifiedUrl =
-      "https://fonts.googleapis.com/css2?family=" +
-      config.typo +
-      ":wght@" +
-      400 +
-      "&display=swap"; // Modifiez cette ligne selon vos besoins
-    return modifiedUrl;
-  }
+      // Si la requête échoue, modifiez l'URL et retournez la nouvelle URL
+      console.log("Modification de l'URL suite à un échec de la requête.");
+      const modifiedUrl =
+        "https://fonts.googleapis.com/css2?family=" +
+        config.typo +
+        ":wght@" +
+        400 +
+        "&display=swap"; // Modifiez cette ligne selon vos besoins
+      ///////////////dernier ajout //////////////////////////////
+      ///////////////////////////////////////////////////////////
 
-  async function testerEtMettreAJourURL(config) {
-    // Appel de la fonction testerEtModifierURL avec await pour récupérer le résultat
-    const resultat = await testerEtModifierURL(config.url, config);
-    // Mettre à jour la propriété url de l'objet config avec la nouvelle URL
-    config.url = resultat;
-    // Utiliser ou afficher l'objet config avec la nouvelle URL
-    console.log("Objet config avec la nouvelle URL :", config);
-  }
-  // Appel de la fonction asynchrone en passant l'objet config1 en paramètre
-  testerEtMettreAJourURL(config1).then(() => {
-    console.log(config1.url, "👍");
-    if (htmlElement1 == htmlElement2) {
-      console.log("les 2 tags html sont identiques");
-      error.style.display = "block";
-    } else {
-      // console.log("envoi le message à la page");
-      error.style.display = "none";
-      // sendMessage(config1, config2);
+      const modifiedWeight = 400;
+      let letNewConfig = [modifiedUrl, modifiedWeight];
+      return letNewConfig;
+      //////////////        !!!!!!!!!!!!!!!!!     modif du return a la place de return modifiedUrl    ///////////
     }
-  });
-
-  chrome.runtime.onMessage.addListener((message) => {
-    console.log(message);
-  });
+    async function testerEtMettreAJourAllURL(config, config2) {
+      // Appel de la fonction testerEtModifierURL avec await pour récupérer le résultat
+      const resultat = await testerEtModifierURL(config.url, config);
+      const resultat2 = await testerEtModifierURL(config2.url, config2);
+      // reucpération des tableaux
+      console.log(resultat, "1er tableau");
+      // console.log(resultat2, "2er tableau");
+      // Mettre à jour la propriété url de l'objet config avec la nouvelle URL
+      config.url = resultat[0];
+      config.weight = resultat[1];
+      config2.url = resultat2[0];
+      config2.weight = resultat2[1];
+      // Utiliser ou afficher l'objet config avec la nouvelle URL
+      console.log("Objet config avec la nouvelle URL :", config);
+      // console.log("Objet config avec la nouvelle URL :", config2);
+    }
+    // Appel de la fonction asynchrone en passant l'objet config1 en paramètre
+    testerEtMettreAJourAllURL(configuration1, configuration2)
+      .then(() => {
+        return configuration1, configuration2;
+      })
+      .then(() => {
+        console.log(configuration1.url, "url1 valide et modifier ");
+        console.log(configuration2.url, "url2 valide et modifie");
+        sendMessage(configuration1, configuration2);
+      });
+    chrome.runtime.onMessage.addListener((message) => {
+      console.log(message);
+    });
+  }
 });
