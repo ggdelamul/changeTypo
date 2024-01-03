@@ -5,6 +5,12 @@ import {
 } from "./modules/fonctionsPopup.js";
 import { Configuration } from "./modules/class.js";
 // variables
+let a = 5;
+let b = 2;
+a = a + b;
+b = a - b;
+a = a - b;
+console.log(a, b);
 const btn = document.querySelector("button");
 let police1;
 let htmlElement1;
@@ -12,7 +18,10 @@ let police2;
 let htmlElement2;
 let weight1;
 let weight2;
-let error = document.querySelector(".error");
+const errorContainer = document.querySelector(".error-container");
+const error1 = document.querySelector(".error1");
+const error2 = document.querySelector(".error2");
+
 // passer le message au scripts de la page courante
 const sendMessage = (objet1, objet2) => {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -36,11 +45,13 @@ btn.addEventListener("click", () => {
   weight2 = parseInt(weight2);
   if (htmlElement1 == htmlElement2) {
     console.log("les 2 tags html sont identiques");
-    error.textContent =
-      "Vous avez sélectionner 2 fois le même tag HTML , merci de modifier votre sélection";
-    error.style.display = "block";
+    if (error1.textContent == "") {
+      error1.textContent =
+        "Vous avez sélectionner 2 fois le même tag HTML , merci de modifier votre sélection";
+    }
+    errorContainer.style.display = "block";
   } else {
-    error.style.display = "none";
+    errorContainer.style.display = "none";
     //construction de la configuration
     let configuration1 = new Configuration(police1, htmlElement1, weight1);
     let configuration2 = new Configuration(police2, htmlElement2, weight2);
@@ -58,6 +69,7 @@ btn.addEventListener("click", () => {
           console.error(
             `Échec du chargement de l\'URL ${url}. Statut de la réponse : ${response.status}`
           );
+          //Ajout de l'affichage d'erreur
         }
       } catch (e) {
         console.error(`Erreur lors de la requête pour l\'URL ${url} :`, e);
